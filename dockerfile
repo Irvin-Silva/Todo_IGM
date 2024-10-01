@@ -23,16 +23,16 @@ COPY . .
 # Instala las dependencias de Composer
 RUN composer install --ignore-platform-reqs
 
-# Cambia al usuario appuser
+# Cambia al usuario appuser (opcional)
 RUN useradd -ms /bin/bash appuser
-USER appuser
+# USER appuser
 
 # Ejecuta los comandos necesarios para Laravel
 RUN php artisan key:generate && \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
-    php artisan migrate --force
+    php artisan migrate --force || true
 
 # Instala las dependencias de NPM
 RUN npm install
